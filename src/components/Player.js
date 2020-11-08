@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //specific icons (faAngleDoubleLeft)
@@ -16,7 +16,22 @@ const Player = ({
   setIsPlaying,
   songs,
   setCurrentSong,
+  setSongs,
 }) => {
+  //UseEffect
+  useEffect(() => {
+    //Add Active State
+    const newSongs = songs.map((song) => {
+      if (song.id === currentSong.id) {
+        return { ...song, active: true };
+      } else {
+        return { ...song, active: false };
+      }
+    });
+    setSongs(newSongs);
+  }, [currentSong]);
+  //* When currentSong changes, we update Songs array
+
   //Event Handlers
   const playSongHandler = () => {
     // console.log(audioRef.current);
