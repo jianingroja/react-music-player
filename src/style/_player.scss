@@ -15,7 +15,8 @@
   display: flex;
   input {
     width: 100%;
-    padding: 1rem 2rem; // Not need to click the slider perfectly precise
+    padding: 1rem 0rem; // Not need to click the slider perfectly precise
+    // if padding exits for lef and right, input slider will not start from 0
   }
   p {
     padding: 1rem;

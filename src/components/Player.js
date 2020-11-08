@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 //component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //specific icons (faAngleDoubleLeft)
@@ -11,9 +11,10 @@ import {
 const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
   //Ref
   const audioRef = useRef(null);
+
   //Event Handlers
   const playSongHandler = () => {
-    console.log(audioRef.current);
+    // console.log(audioRef.current);
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(!isPlaying); //change the state
@@ -22,12 +23,46 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
       setIsPlaying(!isPlaying);
     }
   };
+
+  const timeUpdateHandler = (e) => {
+    const current = e.target.currentTime;
+    const songDuration = e.target.duration;
+    setSongInfo({ ...songInfo, currentTime: current, duration: songDuration });
+  };
+
+  const getTime = (time) => {
+    return (
+      //format time
+      //* Math.floor: 向下取整
+      //* %：向下去余
+      //* 换算成分钟 + ： +（ 0 + 60以内的秒数）<取后两位，如果秒数是个位数，则为‘0x’，如果有十位数，则为‘0xx’>
+      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+    );
+  };
+
+  const dragHandler = (e) => {
+    audioRef.current.currentTime = e.target.value;
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
+
+  //State
+  const [songInfo, setSongInfo] = useState({
+    currentTime: null,
+    duration: null,
+  });
+
   return (
     <div className="player">
       <div className="time-control">
-        <p>Start Time</p>
-        <input type="range" />
-        <p>End Time</p>
+        <p>{getTime(songInfo.currentTime)}</p>
+        <input
+          min={0}
+          max={songInfo.duration}
+          value={songInfo.currentTime}
+          onChange={dragHandler}
+          type="range"
+        />
+        <p>{getTime(songInfo.duration)}</p>
       </div>
       <div className="play-control">
         {/* icon */}
@@ -44,7 +79,12 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
           icon={faAngleRight}
         />
       </div>
-      <audio ref={audioRef} src={currentSong.audio}></audio>
+      <audio
+        onTimeUpdate={timeUpdateHandler}
+        onLoadedMetadata={timeUpdateHandler} //在点击之前加载媒体信息，展示songDuration
+        ref={audioRef}
+        src={currentSong.audio}
+      ></audio>
     </div>
   );
 };
