@@ -4,8 +4,10 @@ import "./style/app.scss";
 //Adding Components
 import Player from "./components/Player";
 import Song from "./components/Song";
+import Library from "./components/Library";
 //Import Util
 import data from "./util";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 function App() {
   //State
@@ -21,6 +23,7 @@ function App() {
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
       />
+      <Library songs={songs} />
     </div>
   );
 }
