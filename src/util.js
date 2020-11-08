@@ -1,5 +1,3 @@
-import React from "react";
-
 export const playAudio = (isPlaying, audioRef) => {
   //check if there is a song playing at the moment
   if (isPlaying) {

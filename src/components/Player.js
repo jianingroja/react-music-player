@@ -49,7 +49,17 @@ const Player = ({
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const songDuration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: current, duration: songDuration });
+    //Calculate Percentage
+    const roundedCurrent = Math.round(current);
+    const roundedDuration = Math.round(songDuration);
+    const percentage = Math.round((roundedCurrent / roundedDuration) * 100);
+
+    setSongInfo({
+      ...songInfo,
+      currentTime: current,
+      duration: songDuration,
+      animationPercentage: percentage,
+    });
   };
 
   const getTime = (time) => {
@@ -64,7 +74,12 @@ const Player = ({
 
   const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value;
-    setSongInfo({ ...songInfo, currentTime: e.target.value });
+    const percentage = Math.round((e.target.value / songInfo.duration) * 100);
+    setSongInfo({
+      ...songInfo,
+      currentTime: e.target.value,
+      animationPercentage: percentage,
+    });
   };
 
   const skipTrackHandler = (direction) => {
@@ -89,19 +104,33 @@ const Player = ({
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
+
+  //Add the styles
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
 
   return (
     <div className="player">
       <div className="time-control">
         <p>{getTime(songInfo.currentTime)}</p>
-        <input
-          min={0}
-          max={songInfo.duration || 0} //fixing NAN problem
-          value={songInfo.currentTime} //controlled input
-          onChange={dragHandler}
-          type="range"
-        />
+        <div
+          style={{
+            background: `linear-gradient(to left, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+          }}
+          className="track"
+        >
+          <input
+            min={0}
+            max={songInfo.duration || 0} //fixing NAN problem
+            value={songInfo.currentTime} //controlled input
+            onChange={dragHandler}
+            type="range"
+          />
+          <div style={trackAnim} className="animate-track"></div>
+        </div>
         <p>{getTime(songInfo.duration || 0)}</p>
         {/* songInfo.duration ? getTime(songInfo.duration) :'0:00' */}
         {/* fixing NAN problem */}
