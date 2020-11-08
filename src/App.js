@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 //Import Styles
 import "./style/app.scss";
 //Adding Components
@@ -7,9 +7,11 @@ import Song from "./components/Song";
 import Library from "./components/Library";
 //Import Util
 import data from "./util";
-import { library } from "@fortawesome/fontawesome-svg-core";
 
 function App() {
+  //Ref
+  const audioRef = useRef(null);
+
   //State
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]); //by defalut the first one in the song array
@@ -19,11 +21,17 @@ function App() {
     <div className="App">
       <Song currentSong={currentSong} />
       <Player
+        audioRef={audioRef}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
       />
-      <Library songs={songs} setCurrentSong={setCurrentSong} />
+      <Library
+        audioRef={audioRef}
+        songs={songs}
+        setCurrentSong={setCurrentSong}
+        isPlaying={isPlaying}
+      />
     </div>
   );
 }

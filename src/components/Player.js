@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 //component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //specific icons (faAngleDoubleLeft)
@@ -9,10 +9,7 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
-  //Ref
-  const audioRef = useRef(null);
-
+const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
   //Event Handlers
   const playSongHandler = () => {
     // console.log(audioRef.current);
