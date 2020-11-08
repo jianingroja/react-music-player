@@ -55,12 +55,13 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
         <p>{getTime(songInfo.currentTime)}</p>
         <input
           min={0}
-          max={songInfo.duration}
+          max={songInfo.duration || 0} //fixing NAN problem
           value={songInfo.currentTime} //controlled input
           onChange={dragHandler}
           type="range"
         />
-        <p>{getTime(songInfo.duration)}</p>
+        <p>{getTime(songInfo.duration || 0)}</p>
+        {/* fixing NAN problem */}
       </div>
       <div className="play-control">
         {/* icon */}
