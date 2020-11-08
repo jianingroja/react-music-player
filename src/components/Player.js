@@ -8,11 +8,13 @@ import {
   faAngleDoubleRight,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
+import { playAudio } from "../util";
 
 const Player = ({
   audioRef,
   currentSong,
   isPlaying,
+
   setIsPlaying,
   songs,
   setCurrentSong,
@@ -74,11 +76,13 @@ const Player = ({
       //如果index为-1，回到最后一首歌，返回
       if ((currentIndex - 1) % songs.length === -1) {
         setCurrentSong(songs[songs.length - 1]);
+        playAudio(isPlaying, audioRef);
         return;
       }
       //如果index不小于0，跳到上一首歌
       setCurrentSong(songs[currentIndex - 1]);
     }
+    playAudio(isPlaying, audioRef);
   };
 
   //State
@@ -99,6 +103,7 @@ const Player = ({
           type="range"
         />
         <p>{getTime(songInfo.duration || 0)}</p>
+        {/* songInfo.duration ? getTime(songInfo.duration) :'0:00' */}
         {/* fixing NAN problem */}
       </div>
       <div className="play-control">
