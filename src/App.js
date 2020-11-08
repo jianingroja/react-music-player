@@ -11,10 +11,16 @@ function App() {
   //State
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]); //by defalut the first one in the song array
+  const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <div className="App">
       <Song currentSong={currentSong} />
-      <Player />
+      <Player
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        currentSong={currentSong}
+      />
     </div>
   );
 }
