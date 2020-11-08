@@ -9,7 +9,14 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
+const Player = ({
+  audioRef,
+  currentSong,
+  isPlaying,
+  setIsPlaying,
+  songs,
+  setCurrentSong,
+}) => {
   //Event Handlers
   const playSongHandler = () => {
     // console.log(audioRef.current);
@@ -43,6 +50,22 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
+  const skipTrackHandler = (direction) => {
+    let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    if (direction === "skip-forward") {
+      setCurrentSong(songs[(currentIndex + 1) % songs.length]); //*余数
+    }
+    if (direction === "skip-back") {
+      //如果index为-1，回到最后一首歌，返回
+      if ((currentIndex - 1) % songs.length === -1) {
+        setCurrentSong(songs[songs.length - 1]);
+        return;
+      }
+      //如果index不小于0，跳到上一首歌
+      setCurrentSong(songs[currentIndex - 1]);
+    }
+  };
+
   //State
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
@@ -66,6 +89,7 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
       <div className="play-control">
         {/* icon */}
         <FontAwesomeIcon
+          onClick={() => skipTrackHandler("skip-back")}
           className="skip-back"
           size="2x"
           icon={faAngleDoubleLeft}
@@ -77,6 +101,7 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying }) => {
           icon={isPlaying ? faPause : faPlay} //Toggle the button
         />
         <FontAwesomeIcon
+          onClick={() => skipTrackHandler("skip-forward")}
           className="skup-forward"
           size="2x"
           icon={faAngleDoubleRight}
