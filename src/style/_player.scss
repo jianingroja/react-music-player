@@ -1,0 +1,36 @@
+//partial
+
+.player {
+  background-color: rosybrown;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time-control {
+  background-color: lightcoral;
+  width: 50%;
+  display: flex;
+  input {
+    width: 100%;
+    padding: 1rem 2rem; // Not need to click the slider perfectly precise
+  }
+  p {
+    padding: 1rem;
+  }
+}
+
+.play-control {
+  background-color: goldenrod;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //important, otherwise the above won't work, cause there is no space to strecth
+  width: 30%;
+
+  svg {
+    cursor: pointer;
+  }
+}
