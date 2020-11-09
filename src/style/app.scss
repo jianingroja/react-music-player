@@ -23,11 +23,21 @@ h4 {
   transition: all 0.5s ease;
 }
 .library-active {
-  margin-left: 30%;
+  margin-left: 20rem;
 }
 
 body {
+  height: 100%;
   font-family: "PT Sans", sans-serif;
+}
+.place-holder {
+  height: 10vh;
+  background-color: rgba(196, 151, 151, 0.747);
+  color: rgb(156, 115, 115);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Serif SC", serif;
 }
 
 @import "./song";

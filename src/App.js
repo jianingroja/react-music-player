@@ -40,6 +40,11 @@ function App() {
         setSongs={setSongs}
         LibraryStatus={LibraryStatus}
       />
+      <div className="place-holder">
+        <p>
+          如何在互联网充斥的时代过一种纸质的智性生活，这是一个比我是谁，我从哪里来，我到哪里去更严肃的问题。
+        </p>
+      </div>
     </div>
   );
 }
