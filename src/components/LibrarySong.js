@@ -1,5 +1,4 @@
 import React from "react";
-import { playAudio } from "../util";
 
 const LibrarySong = ({
   song,
@@ -11,10 +10,10 @@ const LibrarySong = ({
   setSongs,
 }) => {
   //Event Handler
-  const songSelectHandler = () => {
+  const songSelectHandler = async () => {
     const selectedSong = songs.filter((state) => state.id === id); //return an array
     // console.log(selectedSong);
-    setCurrentSong(selectedSong[0]);
+    await setCurrentSong(selectedSong[0]);
 
     //Add Active State
     const newSongs = songs.map((song) => {
@@ -27,7 +26,7 @@ const LibrarySong = ({
     setSongs(newSongs);
 
     //check if there is a song playing at the moment
-    playAudio(isPlaying, audioRef);
+    // playAudio(isPlaying, audioRef);
     // if (isPlaying) {
     //   const playPromise = audioRef.current.play();
     //   //? How is this a Promise?
@@ -37,7 +36,10 @@ const LibrarySong = ({
     //     });
     //   }
     // }
-    audioRef.current.play();
+    if (isPlaying) {
+      audioRef.current.play();
+    }
+    // audioRef.current.play();
   };
 
   return (

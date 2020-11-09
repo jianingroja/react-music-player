@@ -8,7 +8,6 @@ import {
   faAngleDoubleRight,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
-import { playAudio } from "../util";
 
 const Player = ({
   audioRef,
@@ -82,22 +81,33 @@ const Player = ({
     });
   };
 
-  const skipTrackHandler = (direction) => {
+  const skipTrackHandler = async (direction) => {
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
     if (direction === "skip-forward") {
-      setCurrentSong(songs[(currentIndex + 1) % songs.length]); //*余数
+      await setCurrentSong(songs[(currentIndex + 1) % songs.length]); //*余数
     }
     if (direction === "skip-back") {
       //如果index为-1，回到最后一首歌，返回
       if ((currentIndex - 1) % songs.length === -1) {
-        setCurrentSong(songs[songs.length - 1]);
-        playAudio(isPlaying, audioRef);
+        await setCurrentSong(songs[songs.length - 1]);
+        // playAudio(isPlaying, audioRef);
+
+        if (isPlaying) {
+          audioRef.current.play();
+        }
         return;
       }
       //如果index不小于0，跳到上一首歌
-      setCurrentSong(songs[currentIndex - 1]);
+      await setCurrentSong(songs[currentIndex - 1]);
     }
-    playAudio(isPlaying, audioRef);
+    // playAudio(isPlaying, audioRef);
+    if (isPlaying) {
+      audioRef.current.play();
+    }
+  };
+
+  const songEndHandler = async () => {
+    await skipTrackHandler("skip-forward");
   };
 
   //State
@@ -161,6 +171,7 @@ const Player = ({
         onLoadedMetadata={timeUpdateHandler} //在点击之前加载媒体信息，展示songDuration
         ref={audioRef}
         src={currentSong.audio}
+        onEnded={songEndHandler}
       ></audio>
     </div>
   );
