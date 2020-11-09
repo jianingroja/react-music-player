@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 //component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //specific icons (faAngleDoubleLeft)
@@ -19,20 +19,32 @@ const Player = ({
   setCurrentSong,
   setSongs,
 }) => {
-  //UseEffect
-  useEffect(() => {
-    //Add Active State
+  // //UseEffect
+  // useEffect(() => {
+  //   //Add Active State
+  //   const newSongs = songs.map((song) => {
+  //     if (song.id === currentSong.id) {
+  //       return { ...song, active: true };
+  //     } else {
+  //       return { ...song, active: false };
+  //     }
+  //   });
+  //   setSongs(newSongs);
+  // }, [currentSong]);
+  //* When currentSong changes, we update Songs array
+  //* We are updating it twice, here and LibrarySong.js
+  //* So we remove useEffect, create activeLibraryHandler function
+
+  const activeLibraryHandler = (nextPrev) => {
     const newSongs = songs.map((song) => {
-      if (song.id === currentSong.id) {
+      if (song.id === nextPrev.id) {
         return { ...song, active: true };
       } else {
         return { ...song, active: false };
       }
     });
     setSongs(newSongs);
-  }, [currentSong]);
-  //* When currentSong changes, we update Songs array
-
+  };
   //Event Handlers
   const playSongHandler = () => {
     // console.log(audioRef.current);
@@ -85,11 +97,14 @@ const Player = ({
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
     if (direction === "skip-forward") {
       await setCurrentSong(songs[(currentIndex + 1) % songs.length]); //*余数
+      activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
     }
     if (direction === "skip-back") {
       //如果index为-1，回到最后一首歌，返回
       if ((currentIndex - 1) % songs.length === -1) {
         await setCurrentSong(songs[songs.length - 1]);
+        activeLibraryHandler(songs[songs.length - 1]);
+
         // playAudio(isPlaying, audioRef);
 
         if (isPlaying) {
@@ -99,6 +114,7 @@ const Player = ({
       }
       //如果index不小于0，跳到上一首歌
       await setCurrentSong(songs[currentIndex - 1]);
+      activeLibraryHandler(songs[currentIndex - 1]);
     }
     // playAudio(isPlaying, audioRef);
     if (isPlaying) {
