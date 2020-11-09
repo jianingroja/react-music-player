@@ -106,6 +106,7 @@ const Player = ({
     }
   };
 
+  //? Async? Await?
   const songEndHandler = async () => {
     await skipTrackHandler("skip-forward");
   };
