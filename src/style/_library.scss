@@ -57,17 +57,18 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(75, 36, 36, 0.733);
+  scrollbar-color: rgba(187, 153, 153, 0.733);
 }
-//make it work for chrome
-*::-webkit-scrollbar {
-  width: 5px;
-}
+//?
+// //make it work for chrome
+// *::-webkit-scrollbar {
+//   width: 5px;
+// }
 *::-webkit-scrollbar-track {
   background: transparent;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: rgba(75, 36, 36, 0.733);
+  // background-color: rgb(240, 12, 12);
   border-radius: 20px;
   border: transparent;
 }
