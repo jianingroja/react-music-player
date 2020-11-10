@@ -24,6 +24,11 @@ h4 {
 }
 .library-active {
   margin-left: 20rem;
+  //不要让button随着右滑
+  button {
+    transform: translateX(-5rem);
+    margin-top: 0.5rem;
+  }
 }
 
 body {
@@ -32,12 +37,32 @@ body {
 }
 .place-holder {
   height: 10vh;
+  // padding: 1rem;
   background-color: rgba(196, 151, 151, 0.747);
   color: rgb(156, 115, 115);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Noto Serif SC", serif;
+  //? p 和 div 的关系？ margin padding?
+  p {
+    height: 80%;
+    overflow: auto;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0rem 1rem;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (max-width: 768px) {
+  .place-holder {
+    p {
+      font-size: 0.8rem;
+    }
+  }
 }
 
 @import "./song";

@@ -2,15 +2,18 @@
 
 .song-container {
   // width: 100%; default
-  min-height: 60vh;
+  //min-height:60vh;
+  height: 60vh;
   // background-color: lightblue;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   img {
     width: 20%;
     border-radius: 50%;
+    transition: all 1s ease;
   }
   h2 {
     padding: 3rem 1rem 1rem 1rem;
@@ -20,12 +23,21 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) and (min-width: 375px) {
+  .song-container {
+    img {
+      width: 40%;
+      //? 怎样解决中间区域
+      // 屏幕宽度小于等于768px时，img宽度为60%
+      // 屏幕宽度大于768px时，img宽度为20%
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
   .song-container {
     img {
       width: 60%;
-      // 屏幕宽度小于等于768px时，img宽度为60%
-      // 屏幕宽度大于768px时，img宽度为20%
     }
   }
 }
